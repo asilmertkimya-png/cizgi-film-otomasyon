@@ -15,10 +15,13 @@ Traceback (most recent call last):
   File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/main.py", line 30, in main
     print(f"  Sahne {i}: gorsel"); g = gorsel.uret(s["gorsel"])
                                        ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/gorsel.py", line 35, in uret
-    raise RuntimeError("Pollinations gorsel uretilemedi (tum yollar basarisiz)")
-RuntimeError: Pollinations gorsel uretilemedi (tum yollar basarisiz)
+  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/gorsel.py", line 39, in uret
+    raise RuntimeError(f"Gemini gorsel uretilemedi: {son}")
+RuntimeError: Gemini gorsel uretilemedi: gemini-2.0-flash-preview-image-generation: HTTP 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for ge
 Bolum: Merakli bir sincap ormanda kaybolan bal kavanozunu ariyor | sive: Karadeniz
-Senaryo: Finduk'un Tatli Macerasi (6 sahne)
+Senaryo: Fındık'ın Tatlı Macerası (5 sahne)
   Sahne 1: ses
   Sahne 1: gorsel
