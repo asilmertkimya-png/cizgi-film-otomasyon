@@ -22,6 +22,7 @@ SES_ERKEK = os.environ.get("SES_ERKEK", "tr-TR-AhmetNeural")
 SES_KADIN = os.environ.get("SES_KADIN", "tr-TR-EmelNeural")
 
 # Gorsel (Pollinations.ai, ucretsiz, anahtarsiz)
+POLLINATIONS_KEY = os.environ.get("POLLINATIONS_KEY", "")  # opsiyonel; ucretsiz anahtar (enter.pollinations.ai)
 GORSEL_MODEL  = os.environ.get("GORSEL_MODEL", "flux")
 KARAKTER_SEED = int(os.environ.get("KARAKTER_SEED", "4242"))  # sabit seed -> daha tutarli karakter
 STIL = os.environ.get("STIL",
