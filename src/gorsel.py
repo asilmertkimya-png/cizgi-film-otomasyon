@@ -5,8 +5,7 @@ Zaten elimizdeki GEMINI_API_KEY'i kullanir; ek servis/uyelik gerekmez. REST ile 
 import base64, tempfile, time, requests
 from . import config
 
-_MODELLER = ["gemini-2.5-flash-image", "gemini-2.5-flash-image-preview",
-             "gemini-2.0-flash-preview-image-generation"]
+_MODELLER = ["gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"]
 
 def _cagir(model, prompt):
     url = (f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
@@ -26,14 +25,11 @@ def _cagir(model, prompt):
 
 def uret(prompt: str) -> str:
     tam = f"{prompt}, {config.STIL}, vertical 9:16 portrait composition, centered subject"
-    son = None
+    hatalar = []
     for model in _MODELLER:
-        for _ in range(2):
-            yol, hata = _cagir(model, tam)
-            if yol:
-                return yol
-            son = f"{model}: {hata}"
-            if hata and "HTTP 404" in hata:
-                break   # bu model yok, sonrakine gec
-            time.sleep(4)
-    raise RuntimeError(f"Gemini gorsel uretilemedi: {son}")
+        yol, hata = _cagir(model, tam)
+        if yol:
+            return yol
+        hatalar.append(f"[{model}] {hata}")
+        print(f"    gorsel deneme -> {model}: {hata}")   # run.log'a her hatayi yaz
+    raise RuntimeError("Gemini gorsel uretilemedi -> " + " || ".join(hatalar))
