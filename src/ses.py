@@ -1,28 +1,15 @@
-"""
-Adim 2 — Ses (fal.ai / F5-TTS): metin + referans ses -> klonlanmis seste WAV.
-Referans sesi fal'a yukler, URL alir; sonucu yerel dosyaya indirir.
-Not: Turkce/sive kalitesi zayifsa MODEL_SES'i degistir (config.py).
-"""
-import fal_client
+"""Adim 2 — Ses (edge-tts, UCRETSIZ): metin -> Turkce neural seste MP3. Anahtar gerekmez."""
+import asyncio, tempfile, edge_tts
 from . import config
-from .utils import indir
 
-def _ses_url(sonuc: dict) -> str:
-    for anahtar in ("audio_url", "audio"):
-        deger = sonuc.get(anahtar)
-        if isinstance(deger, dict):
-            return deger.get("url")
-        if isinstance(deger, str):
-            return deger
-    raise RuntimeError(f"Ses cikti URL'si bulunamadi: {sonuc}")
+def _voice(karakter):
+    if not karakter:
+        return config.SES_ERKEK
+    return config.SES_KADIN if (sum(map(ord, karakter)) % 2) else config.SES_ERKEK
 
-def uret(replik: str, ses_ornegi: str = None) -> str:
-    ses_ornegi = ses_ornegi or config.SES_ORNEGI
-    ref_url = ses_ornegi if ses_ornegi.startswith("http") else fal_client.upload_file(ses_ornegi)
-    sonuc = fal_client.subscribe(config.MODEL_SES, arguments={
-        "gen_text": replik,
-        "ref_audio_url": ref_url,
-        "model_type": "F5-TTS",
-        "remove_silence": True,
-    }, with_logs=False)
-    return indir(_ses_url(sonuc), ".wav")
+def uret(metin: str, karakter: str = None) -> str:
+    out = tempfile.mktemp(suffix=".mp3")
+    async def _g():
+        await edge_tts.Communicate(metin, _voice(karakter)).save(out)
+    asyncio.run(_g())
+    return out

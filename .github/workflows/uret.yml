@@ -20,14 +20,13 @@ jobs:
           python-version: "3.11"
 
       - name: ffmpeg kur
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
 
       - name: Bağımlılıklar
         run: pip install -r requirements.txt
 
       - name: Pipeline
         env:
-          FAL_KEY:               ${{ secrets.FAL_KEY }}
           GEMINI_API_KEY:        ${{ secrets.GEMINI_API_KEY }}
           YUKLE:                 ${{ vars.YUKLE }}
           YOUTUBE_CLIENT_ID:     ${{ secrets.YOUTUBE_CLIENT_ID }}

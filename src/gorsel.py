@@ -1,18 +1,22 @@
-"""
-Adim 3 — Gorsel (fal.ai / FLUX-LoRA): prompt -> karakter gorseli (PNG).
-KARAKTER_LORA ayarliysa egitilmis LoRA uygulanir; bos ise temel FLUX.
-"""
-import fal_client
+"""Adim 3 — Gorsel (Pollinations.ai, UCRETSIZ, anahtarsiz): prompt -> PNG."""
+import tempfile, time, urllib.parse, requests
 from . import config
-from .utils import indir
 
 def uret(prompt: str) -> str:
-    args = {
-        "prompt": prompt,
-        "image_size": config.GORSEL_BOYUT,   # or. "portrait_16_9" (dikey)
-        "num_images": 1,
-    }
-    if config.KARAKTER_LORA:
-        args["loras"] = [{"path": config.KARAKTER_LORA, "scale": config.LORA_GUC}]
-    sonuc = fal_client.subscribe(config.MODEL_GORSEL, arguments=args, with_logs=False)
-    return indir(sonuc["images"][0]["url"], ".png")
+    tam = f"{prompt}, {config.STIL}"
+    url = ("https://image.pollinations.ai/prompt/" + urllib.parse.quote(tam)
+           + f"?width={config.GENISLIK}&height={config.YUKSEKLIK}&nologo=true"
+           + f"&model={config.GORSEL_MODEL}&seed={config.KARAKTER_SEED}")
+    son = None
+    for _ in range(4):
+        try:
+            r = requests.get(url, timeout=240)
+            if r.status_code == 200 and len(r.content) > 1000:
+                out = tempfile.mktemp(suffix=".png")
+                open(out, "wb").write(r.content)
+                return out
+            son = f"HTTP {r.status_code}"
+        except Exception as e:
+            son = str(e)
+        time.sleep(6)
+    raise RuntimeError(f"Pollinations gorsel uretilemedi: {son}")
