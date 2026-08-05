@@ -9,7 +9,9 @@ on:
 
 jobs:
   uret:
-    runs-on: ubuntu-latest      # CPU runner yeter; agir isi fal.ai (GPU) yapar
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # CPU runner yeter; agir isi fal.ai (GPU) yapar
     steps:
       - uses: actions/checkout@v4
 
@@ -32,7 +34,18 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
           # MODEL_SES / MODEL_GORSEL / MODEL_LIPSYNC / SES_ORNEGI istersen buraya vars olarak ekle
-        run: python -m src.main
+        run: |
+          set -o pipefail
+          python -m src.main 2>&1 | tee run.log
+
+      - name: Log'u kaydet (teshis)
+        if: always()
+        run: |
+          git config user.name  "cizgi-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -f run.log || true
+          git commit -m "teshis: run.log" || echo "log degisikligi yok"
+          git push || echo "log push atlandi"
 
       - name: Videoyu artifact olarak yükle
         uses: actions/upload-artifact@v4
