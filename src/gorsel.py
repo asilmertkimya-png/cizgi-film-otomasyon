@@ -1,35 +1,39 @@
 """
-Adim 3 — Gorsel (Pollinations.ai, UCRETSIZ): prompt -> PNG.
-Cok yollu: (1) anahtarsiz varsayilan, (2) anahtarsiz turbo, (3) POLLINATIONS_KEY varsa gen/flux.
-Anahtarsiz genelde yeter; servis dalgalanirsa enter.pollinations.ai'den ucretsiz anahtar eklenebilir.
+Adim 3 — Gorsel (Gemini 2.5 Flash Image / "Nano Banana", UCRETSIZ katman): prompt -> PNG.
+Zaten elimizdeki GEMINI_API_KEY'i kullanir; ek servis/uyelik gerekmez. REST ile cagirir.
 """
-import tempfile, time, urllib.parse, requests
+import base64, tempfile, time, requests
 from . import config
 
-def _dene(url, headers=None, tekrar=3):
-    for _ in range(tekrar):
-        try:
-            r = requests.get(url, headers=headers or {}, timeout=240)
-            ct = r.headers.get("content-type", "")
-            if r.status_code == 200 and len(r.content) > 1000 and not ct.startswith("text"):
-                out = tempfile.mktemp(suffix=".png"); open(out, "wb").write(r.content); return out
-        except Exception:
-            pass
-        time.sleep(5)
-    return None
+_MODELLER = ["gemini-2.5-flash-image", "gemini-2.5-flash-image-preview",
+             "gemini-2.0-flash-preview-image-generation"]
+
+def _cagir(model, prompt):
+    url = (f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
+           f"?key={config.GEMINI_API_KEY}")
+    body = {"contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {"responseModalities": ["TEXT", "IMAGE"]}}
+    r = requests.post(url, json=body, timeout=180)
+    if r.status_code != 200:
+        return None, f"HTTP {r.status_code}: {r.text[:160]}"
+    for part in r.json().get("candidates", [{}])[0].get("content", {}).get("parts", []):
+        inline = part.get("inlineData") or part.get("inline_data")
+        if inline and inline.get("data"):
+            out = tempfile.mktemp(suffix=".png")
+            open(out, "wb").write(base64.b64decode(inline["data"]))
+            return out, None
+    return None, "yanitta gorsel yok"
 
 def uret(prompt: str) -> str:
-    q = urllib.parse.quote(f"{prompt}, {config.STIL}")
-    w, h, seed = config.GENISLIK, config.YUKSEKLIK, config.KARAKTER_SEED
-    adaylar = [
-        (f"https://image.pollinations.ai/prompt/{q}?width={w}&height={h}&nologo=true&seed={seed}", None),
-        (f"https://image.pollinations.ai/prompt/{q}?width={w}&height={h}&nologo=true&seed={seed}&model=turbo", None),
-    ]
-    if config.POLLINATIONS_KEY:
-        adaylar.append((f"https://gen.pollinations.ai/image/{q}?width={w}&height={h}&seed={seed}&model=flux",
-                        {"Authorization": f"Bearer {config.POLLINATIONS_KEY}"}))
-    for url, hdr in adaylar:
-        yol = _dene(url, hdr)
-        if yol:
-            return yol
-    raise RuntimeError("Pollinations gorsel uretilemedi (tum yollar basarisiz)")
+    tam = f"{prompt}, {config.STIL}, vertical 9:16 portrait composition, centered subject"
+    son = None
+    for model in _MODELLER:
+        for _ in range(2):
+            yol, hata = _cagir(model, tam)
+            if yol:
+                return yol
+            son = f"{model}: {hata}"
+            if hata and "HTTP 404" in hata:
+                break   # bu model yok, sonrakine gec
+            time.sleep(4)
+    raise RuntimeError(f"Gemini gorsel uretilemedi: {son}")
