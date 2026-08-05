@@ -15,13 +15,24 @@ Traceback (most recent call last):
   File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/main.py", line 30, in main
     print(f"  Sahne {i}: gorsel"); g = gorsel.uret(s["gorsel"])
                                        ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/gorsel.py", line 39, in uret
-    raise RuntimeError(f"Gemini gorsel uretilemedi: {son}")
-RuntimeError: Gemini gorsel uretilemedi: gemini-2.0-flash-preview-image-generation: HTTP 404: {
+  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/gorsel.py", line 35, in uret
+    raise RuntimeError("Gemini gorsel uretilemedi -> " + " || ".join(hatalar))
+RuntimeError: Gemini gorsel uretilemedi -> [gemini-2.5-flash-image] HTTP 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, || [gemini-2.5-flash-image-preview] HTTP 404: {
   "error": {
     "code": 404,
-    "message": "models/gemini-2.0-flash-preview-image-generation is not found for API version v1beta, or is not supported for ge
+    "message": "models/gemini-2.5-flash-image-preview is not found for API version v1beta, or is not supported for generateConte
 Bolum: Merakli bir sincap ormanda kaybolan bal kavanozunu ariyor | sive: Karadeniz
-Senaryo: Fındık'ın Tatlı Macerası (5 sahne)
+Senaryo: Fındık Sincap'ın Tatlu Bal Macerası (6 sahne)
   Sahne 1: ses
   Sahne 1: gorsel
+    gorsel deneme -> gemini-2.5-flash-image: HTTP 429: {
+  "error": {
+    "code": 429,
+    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error,
+    gorsel deneme -> gemini-2.5-flash-image-preview: HTTP 404: {
+  "error": {
+    "code": 404,
+    "message": "models/gemini-2.5-flash-image-preview is not found for API version v1beta, or is not supported for generateConte
