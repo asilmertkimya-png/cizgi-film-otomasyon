@@ -9,7 +9,7 @@ on:
 
 jobs:
   uret:
-    runs-on: ubuntu-latest      # CPU runner yeter; ağır işi Replicate (GPU) yapar
+    runs-on: ubuntu-latest      # CPU runner yeter; agir isi fal.ai (GPU) yapar
     steps:
       - uses: actions/checkout@v4
 
@@ -25,7 +25,7 @@ jobs:
 
       - name: Pipeline
         env:
-          REPLICATE_API_TOKEN:   ${{ secrets.REPLICATE_API_TOKEN }}
+          FAL_KEY:               ${{ secrets.FAL_KEY }}
           GEMINI_API_KEY:        ${{ secrets.GEMINI_API_KEY }}
           YUKLE:                 ${{ vars.YUKLE }}
           YOUTUBE_CLIENT_ID:     ${{ secrets.YOUTUBE_CLIENT_ID }}

@@ -1,23 +1,18 @@
 """
-Adım 3 — Görsel (Replicate / FLUX): prompt -> karakter görseli (PNG).
-FLUX 'aspect_ratio' bekler (SDXL gibi genişlik/yükseklik değil).
-Karakter tutarlılığı için KARAKTER_LORA ayarlandığında eğitilmiş LoRA uygulanır;
-boşsa temel FLUX ile üretir (LoRA'yı sonra eğitip env'e ekleyebilirsin).
+Adim 3 — Gorsel (fal.ai / FLUX-LoRA): prompt -> karakter gorseli (PNG).
+KARAKTER_LORA ayarliysa egitilmis LoRA uygulanir; bos ise temel FLUX.
 """
-import replicate
+import fal_client
 from . import config
-from .utils import as_file
+from .utils import indir
 
 def uret(prompt: str) -> str:
-    girdi = {
+    args = {
         "prompt": prompt,
-        "aspect_ratio": config.EN_BOY,   # örn "9:16" (dikey Shorts)
-        "num_outputs": 1,
-        "output_format": "png",
+        "image_size": config.GORSEL_BOYUT,   # or. "portrait_16_9" (dikey)
+        "num_images": 1,
     }
     if config.KARAKTER_LORA:
-        girdi["lora_weights"] = config.KARAKTER_LORA
-        girdi["lora_scale"] = config.LORA_GUC
-    cikti = replicate.run(config.MODEL_GORSEL, input=girdi)
-    ilk = cikti[0] if isinstance(cikti, (list, tuple)) else cikti
-    return as_file(ilk, ".png")
+        args["loras"] = [{"path": config.KARAKTER_LORA, "scale": config.LORA_GUC}]
+    sonuc = fal_client.subscribe(config.MODEL_GORSEL, arguments=args, with_logs=False)
+    return indir(sonuc["images"][0]["url"], ".png")

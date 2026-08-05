@@ -11,10 +11,10 @@ def indir(url: str, uzanti: str) -> str:
     return yol
 
 def as_file(deger, uzanti: str) -> str:
-    """Replicate çıktısı URL (str) ya da dosya-benzeri olabilir; her ikisini de yerel yola çevirir."""
+    """API çıktısı URL (str) ya da dosya-benzeri olabilir; her ikisini de yerel yola çevirir."""
     if isinstance(deger, str) and deger.startswith("http"):
         return indir(deger, uzanti)
-    # replicate FileOutput nesnesi ise .url ya da read() olabilir
+    # FileOutput nesnesi ise .url ya da read() olabilir
     url = getattr(deger, "url", None)
     if url:
         return indir(url, uzanti)
