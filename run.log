@@ -10,29 +10,21 @@ https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/READM
 Traceback (most recent call last):
   File "<frozen runpy>", line 198, in _run_module_as_main
   File "<frozen runpy>", line 88, in _run_code
-  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/main.py", line 46, in <module>
+  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/main.py", line 47, in <module>
     main()
   File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/main.py", line 30, in main
     print(f"  Sahne {i}: gorsel"); g = gorsel.uret(s["gorsel"])
                                        ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/gorsel.py", line 35, in uret
+  File "/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/src/gorsel.py", line 44, in uret
     raise RuntimeError("Gemini gorsel uretilemedi -> " + " || ".join(hatalar))
-RuntimeError: Gemini gorsel uretilemedi -> [gemini-2.5-flash-image] HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error, || [gemini-2.5-flash-image-preview] HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.5-flash-image-preview is not found for API version v1beta, or is not supported for generateConte
+RuntimeError: Gemini gorsel uretilemedi -> [gemini-2.5-flash-image] 429 (limit asilamadi)
 Bolum: Merakli bir sincap ormanda kaybolan bal kavanozunu ariyor | sive: Karadeniz
-Senaryo: Fındık Sincap'ın Tatlu Bal Macerası (6 sahne)
+Senaryo: Fındık'ın Bal Macerası (5 sahne)
   Sahne 1: ses
   Sahne 1: gorsel
-    gorsel deneme -> gemini-2.5-flash-image: HTTP 429: {
-  "error": {
-    "code": 429,
-    "message": "You exceeded your current quota, please check your plan and billing details. For more information on this error,
-    gorsel deneme -> gemini-2.5-flash-image-preview: HTTP 404: {
-  "error": {
-    "code": 404,
-    "message": "models/gemini-2.5-flash-image-preview is not found for API version v1beta, or is not supported for generateConte
+    429 hiz limiti (gemini-2.5-flash-image) -> 35sn bekle (1/6)
+    429 hiz limiti (gemini-2.5-flash-image) -> 35sn bekle (2/6)
+    429 hiz limiti (gemini-2.5-flash-image) -> 35sn bekle (3/6)
+    429 hiz limiti (gemini-2.5-flash-image) -> 35sn bekle (4/6)
+    429 hiz limiti (gemini-2.5-flash-image) -> 35sn bekle (5/6)
+    429 hiz limiti (gemini-2.5-flash-image) -> 35sn bekle (6/6)
