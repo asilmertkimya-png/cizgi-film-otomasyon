@@ -2,7 +2,7 @@
 Orkestrator (bedava surum): kuyruktan bir bolum al, ucretsiz hatti calistir.
 senaryo (Gemini) -> her sahne: ses (edge-tts) + gorsel (Pollinations) + sahne klibi (ffmpeg) -> birlestir -> (ops.) yukle
 """
-import json, os, pathlib
+import json, os, pathlib, time
 from . import config, senaryo, ses, gorsel, montaj, yukle
 
 KUYRUK = pathlib.Path("data/fikirler.json")
@@ -29,6 +29,7 @@ def main():
         print(f"  Sahne {i}: ses");    a = ses.uret(s["replik"], s.get("karakter"))
         print(f"  Sahne {i}: gorsel"); g = gorsel.uret(s["gorsel"])
         print(f"  Sahne {i}: montaj"); klipler.append(montaj.sahne_klip(g, a, s["replik"]))
+        time.sleep(6)  # RPM: sahneler arasi kucuk bekleme
 
     os.makedirs("cikti", exist_ok=True)
     final = montaj.birlestir(klipler, "cikti/bolum.mp4")
