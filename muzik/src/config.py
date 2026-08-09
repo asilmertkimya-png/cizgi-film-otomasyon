@@ -6,6 +6,7 @@ Tek gerekli secret: GEMINI_API_KEY (ucretsiz). Muzik ve video ucretsiz/anahtarsi
 import os
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+FAL_KEY        = os.environ.get("FAL_KEY", "")  # fal.ai (MiniMax vokal). Bos/faturalamasizsa MusicGen yedek.
 
 # YouTube (opsiyonel; YUKLE=1 ise gerekir)
 YOUTUBE_CLIENT_ID     = os.environ.get("YOUTUBE_CLIENT_ID", "")

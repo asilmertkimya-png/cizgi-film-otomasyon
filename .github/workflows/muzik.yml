@@ -22,6 +22,7 @@ jobs:
       - name: Pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FAL_KEY:        ${{ secrets.FAL_KEY }}
         run: |
           set -o pipefail
           cd muzik && python -m src.main 2>&1 | tee run.log

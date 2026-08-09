@@ -21,7 +21,7 @@ def main():
     k=sozyaz.uret(p["tema"])
     print(f"Sarki: {k['baslik']} | stil: {k['stil']}")
     print("Muzik uretiliyor (MusicGen, CPU'da birkac dakika surebilir)...")
-    ses=muzik.uret(k["stil"])
+    ses=muzik.uret(k["stil"], k["sozler"])
     os.makedirs("cikti",exist_ok=True)
     final=video.uret(ses,k["baslik"],k["sozler"],"cikti/parca.mp4")
     print(f"Video hazir: {final}")
