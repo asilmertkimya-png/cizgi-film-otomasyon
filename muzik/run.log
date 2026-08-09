@@ -1,0 +1,18 @@
+/home/runner/work/cizgi-film-otomasyon/cizgi-film-otomasyon/muzik/src/sozyaz.py:2: FutureWarning: 
+
+All support for the `google.generativeai` package has ended. It will no longer be receiving 
+updates or bug fixes. Please switch to the `google.genai` package as soon as possible.
+See README for more details:
+
+https://github.com/google-gemini/deprecated-generative-ai-python/blob/main/README.md
+
+  import json, time, google.generativeai as genai
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[transformers] Model config: pad_token_id must be `None` or an integer within the vocabulary (between 0 and 2047), got 2048. This may result in unexpected behavior.
+[transformers] Model config: bos_token_id must be `None` or an integer within the vocabulary (between 0 and 2047), got 2048. This may result in unexpected behavior.
+Tema: yaz aski ve ozgurluk, sahilde gece, enerjik dans pop
+Sarki: Dalga Dansı | stil: modern upbeat pop instrumental, catchy, danceable, bright synths, punchy drums
+Muzik uretiliyor (MusicGen, CPU'da birkac dakika surebilir)...
+Loading weights:   0%|          | 0/611 [00:00<?, ?it/s]Loading weights: 100%|██████████| 611/611 [00:00<00:00, 23685.90it/s]
+Video hazir: cikti/parca.mp4
+Kuyruk guncellendi (durum=hazir).
