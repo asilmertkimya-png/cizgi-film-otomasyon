@@ -11,8 +11,10 @@ Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF
 [transformers] Model config: pad_token_id must be `None` or an integer within the vocabulary (between 0 and 2047), got 2048. This may result in unexpected behavior.
 [transformers] Model config: bos_token_id must be `None` or an integer within the vocabulary (between 0 and 2047), got 2048. This may result in unexpected behavior.
 Tema: yaz aski ve ozgurluk, sahilde gece, enerjik dans pop
-Sarki: Dalga Dansı | stil: modern upbeat pop instrumental, catchy, danceable, bright synths, punchy drums
+Sarki: Yıldız Tozu Dansı | stil: modern upbeat pop instrumental, catchy, danceable, bright synths, punchy drums
 Muzik uretiliyor (MusicGen, CPU'da birkac dakika surebilir)...
-Loading weights:   0%|          | 0/611 [00:00<?, ?it/s]Loading weights: 100%|██████████| 611/611 [00:00<00:00, 23685.90it/s]
+    MiniMax basarisiz (faturalama/kredi?): User is locked. Reason: Exhausted balance. Top up your balance at fal.ai/dashboard/billing.
+    -> ucretsiz MusicGen enstrumantale dusuluyor
+Loading weights:   0%|          | 0/611 [00:00<?, ?it/s]Loading weights: 100%|██████████| 611/611 [00:00<00:00, 8125.76it/s]
 Video hazir: cikti/parca.mp4
 Kuyruk guncellendi (durum=hazir).
