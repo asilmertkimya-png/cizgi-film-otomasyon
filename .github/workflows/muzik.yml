@@ -1,0 +1,36 @@
+name: Muzik Uret
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [muzik]
+
+jobs:
+  muzik:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: ffmpeg + font
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg fonts-dejavu-core
+      - name: Bagimliliklar
+        run: cd muzik && pip install -r requirements.txt
+      - name: Pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          set -o pipefail
+          cd muzik && python -m src.main 2>&1 | tee run.log
+      - name: Sonuc + log commit
+        if: always()
+        run: |
+          git config user.name  "muzik-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add -f muzik/run.log || true
+          git add -f muzik/cikti/parca.mp4 || true
+          git commit -m "muzik: uretim + log" || echo "degisiklik yok"
+          git push || echo "push atlandi"
